@@ -280,7 +280,7 @@
             };
 
             const prompt = stepPrompts[stepId] + "\n\n出力ルール：\n必ず「絵文字|ヒントのテキスト」のように、1つの絵文字（顔文字やイラスト）とテキストを縦線（|）で区切り、3行で出力してください。余計な文章は一切書かないでください。\n例：\n🍳|ごはんをつくってくれたね\n🧹|おそうじをしてくれたね";
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
             const payload = { contents: [{ parts: [{ text: prompt }] }] };
 
             try {
