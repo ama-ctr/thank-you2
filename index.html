@@ -284,7 +284,7 @@
             hideAllMessages();
             document.getElementById('loading-message').classList.remove('hidden');
 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
             const payload = {
                 contents: [{ parts: [{ text: `以下の作文を自然な表現に直してください:\n\n${originalText}` }] }],
                 systemInstruction: { 
