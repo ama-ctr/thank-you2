@@ -10,7 +10,7 @@ def home():
         html_content = f.read()
     
     # 2. Renderに設定した「秘密の鍵」を取り出す
-    api_key = os.environ.get('GEMINI_API_KEY')
+    api_key = os.environ.get('API_KEY')
     
     if not api_key:
         return "エラー: APIキーが設定されていません。RenderのEnvironment Variablesを確認してください。"
