@@ -8,41 +8,52 @@
     <style>
         body {
             font-family: 'Hiragino Maru Gothic ProN', 'Rounded M+ 1c', 'Meiryo', sans-serif;
-            background-color: #f0fdfa;
-            color: #333;
+            background-color: #f0fdf4; /* とても優しい薄緑色の背景 */
+            color: #374151;
         }
+        
         .question-card {
-            background-color: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border: 2px solid #e5e7eb;
-            transition: border-color 0.2s;
+            background-color: #ffffff;
+            border-radius: 1.5rem; /* 角をとても丸く */
+            padding: 1.75rem;
+            margin-bottom: 2rem;
+            border: 4px solid #ccfbf1; /* 柔らかい太枠 */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
         }
         .question-card:focus-within {
-            border-color: #34d399;
+            border-color: #5eead4; /* 入力中は枠の色を少し濃くして目立たせる */
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -3px rgba(94, 234, 212, 0.2);
         }
-        .hint-text {
-            color: #6b7280;
-            font-size: 0.9rem;
-            margin-bottom: 0.75rem;
-            background-color: #f3f4f6;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
+
+        .hint-box {
+            background-color: #f8fafc;
+            border: 2px dashed #cbd5e1; /* 点線でヒントエリアを区切る */
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
         }
+
         textarea, input[type="text"] {
             width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #d1d5db;
-            border-radius: 0.5rem;
-            font-size: 1.1rem;
+            padding: 1rem;
+            border: 3px solid #e2e8f0;
+            border-radius: 1rem;
+            font-size: 1.25rem;
+            background-color: #f8fafc;
+            transition: all 0.2s;
             resize: vertical;
         }
         textarea:focus, input[type="text"]:focus {
             outline: none;
-            border-color: #34d399;
-            box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.2);
+            border-color: #2dd4bf;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.1);
+        }
+
+        .btn-pushable:active {
+            transform: translateY(2px);
         }
     </style>
 </head>
@@ -50,149 +61,157 @@
 
     <div class="max-w-2xl mx-auto">
         
-        <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-teal-600 mb-2">🎁 ありがとうを つたえよう！</h1>
-            <p class="text-lg text-gray-600">じゅんばんに こたえていくと、さくぶんが できあがるよ。</p>
+        <header class="text-center mb-10 mt-4">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-teal-600 mb-4 bg-white inline-block px-8 py-4 rounded-full shadow-sm border-4 border-teal-100">🎁 ありがとうを つたえよう！</h1>
+            <p class="text-lg text-teal-800 font-bold bg-teal-50 inline-block px-6 py-2 rounded-full">じゅんばんに こたえていくと、さくぶんが できあがるよ。</p>
         </header>
 
         <form id="worksheet-form" onsubmit="return false;">
             
-            <!-- 1 -->
             <div class="question-card">
-                <div class="flex items-center gap-2 mb-2">
-                    <h2 class="text-xl font-bold text-teal-700">１．だれに かきますか？</h2>
-                    <button type="button" onclick="speakText('１ばん。だれに かきますか？')" class="bg-teal-100 hover:bg-teal-200 text-lg rounded-full w-8 h-8 flex items-center justify-center transition shadow-sm" title="しつもんを きく">🔊</button>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-teal-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold shadow-sm">1</span>
+                    <h2 class="text-2xl font-bold text-teal-800 flex-grow">だれに かきますか？</h2>
+                    <button type="button" onclick="speakText('１ばん。だれに かきますか？')" class="bg-yellow-100 hover:bg-yellow-200 border-2 border-yellow-300 text-2xl rounded-full w-12 h-12 flex items-center justify-center transition btn-pushable shadow-sm" title="しつもんを きく">🔊</button>
                 </div>
-                <div class="hint-text">
-                    💡 だれに「ありがとう」を つたえたいですか？
-                    <div class="flex flex-wrap gap-2 mt-2">
-                        <button type="button" onclick="insertHint('q1', 'おかあさん')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>おかあさん</button>
-                        <button type="button" onclick="insertHint('q1', 'せんせい')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>せんせい</button>
-                        <button type="button" onclick="insertHint('q1', 'おともだち')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>おともだち</button>
+                
+                <div class="hint-box">
+                    <p class="text-gray-600 font-bold mb-3 flex items-center gap-2">💡 だれに「ありがとう」を つたえたいですか？</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" onclick="insertHint('q1', 'おかあさん')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-lg">👩 おかあさん</button>
+                        <button type="button" onclick="insertHint('q1', 'せんせい')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-lg">🧑‍🏫 せんせい</button>
+                        <button type="button" onclick="insertHint('q1', 'おともだち')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-lg">👦👧 おともだち</button>
                     </div>
                 </div>
-                <div class="flex items-center">
+                <div class="flex items-center gap-3 bg-teal-50 p-3 rounded-2xl border-2 border-teal-100">
                     <input type="text" id="q1" placeholder="なまえを いれてね" class="flex-grow">
-                    <span class="ml-2 text-xl font-bold">へ</span>
+                    <span class="text-2xl font-bold text-teal-700 pr-2">へ</span>
                 </div>
             </div>
 
-            <!-- 2 -->
             <div class="question-card">
-                <div class="flex items-center gap-2 mb-2">
-                    <h2 class="text-xl font-bold text-teal-700">２．どんなことを してくれましたか？</h2>
-                    <button type="button" onclick="speakText('２ばん。どんなことを してくれましたか？')" class="bg-teal-100 hover:bg-teal-200 text-lg rounded-full w-8 h-8 flex items-center justify-center transition shadow-sm" title="しつもんを きく">🔊</button>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-teal-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold shadow-sm">2</span>
+                    <h2 class="text-2xl font-bold text-teal-800 flex-grow">どんなことを してくれましたか？</h2>
+                    <button type="button" onclick="speakText('２ばん。どんなことを してくれましたか？')" class="bg-yellow-100 hover:bg-yellow-200 border-2 border-yellow-300 text-2xl rounded-full w-12 h-12 flex items-center justify-center transition btn-pushable shadow-sm" title="しつもんを きく">🔊</button>
                 </div>
-                <div class="hint-text">
-                    💡 その人は、あなたのために、どんな ことを してくれましたか？
-                    <div class="flex flex-wrap gap-2 mt-2 mb-3">
-                        <button type="button" onclick="insertHint('q2', 'まいにち ごはんを つくってくれたね')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>ごはんを つくってくれたね</button>
-                        <button type="button" onclick="insertHint('q2', 'べんきょうを おしえてくれたね')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>べんきょうを おしえてくれたね</button>
-                        <button type="button" onclick="insertHint('q2', 'いっしょに あそんでくれたね')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>いっしょに あそんでくれたね</button>
+                
+                <div class="hint-box">
+                    <p class="text-gray-600 font-bold mb-3 flex items-center gap-2">💡 その人は、あなたのために、どんな ことを してくれましたか？</p>
+                    <div id="q2-hints-list" class="flex flex-wrap gap-2 mb-3">
+                        <button type="button" onclick="insertHint('q2', 'ごはんを つくってくれたね')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-md">🍳 ごはんを つくってくれたね</button>
+                        <button type="button" onclick="insertHint('q2', 'べんきょうを おしえてくれたね')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-md">✏️ べんきょうを おしえてくれたね</button>
+                        <button type="button" onclick="insertHint('q2', 'いっしょに あそんでくれたね')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-md">⚽️ いっしょに あそんでくれたね</button>
                     </div>
-                    <div id="step2-image-container" class="mt-3 text-center text-teal-600 font-bold bg-teal-50 p-4 rounded-lg border border-teal-100 flex flex-col items-center justify-center min-h-[150px]">
-                        <svg class="animate-spin h-8 w-8 text-teal-500 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <button id="regen-btn-q2" type="button" onclick="regenerateHints('q2')" class="text-sm bg-purple-100 hover:bg-purple-200 text-purple-700 px-4 py-2 rounded-full shadow-sm flex items-center gap-2 transition btn-pushable font-bold border-2 border-purple-200">🔄 ほかのヒントを AIにきく</button>
+                    
+                    <div id="step2-image-container" class="mt-4 text-center text-teal-600 font-bold bg-white p-4 rounded-xl border-2 border-teal-100 flex flex-col items-center justify-center min-h-[150px]">
+                        <svg class="animate-spin h-8 w-8 text-teal-400 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        🎨 ヒントのイラストを かいているよ...
+                        🎨 ヒントのイラストを じゅんび中...
                     </div>
                 </div>
                 <textarea id="q2" rows="3" placeholder="ここにかいてね"></textarea>
             </div>
 
-            <!-- 3 -->
             <div class="question-card">
-                <div class="flex items-center gap-2 mb-2">
-                    <h2 class="text-xl font-bold text-teal-700">３．どんな きもちに なりましたか？</h2>
-                    <button type="button" onclick="speakText('３ばん。どんな きもちに なりましたか？')" class="bg-teal-100 hover:bg-teal-200 text-lg rounded-full w-8 h-8 flex items-center justify-center transition shadow-sm" title="しつもんを きく">🔊</button>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-teal-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold shadow-sm">3</span>
+                    <h2 class="text-2xl font-bold text-teal-800 flex-grow">どんな きもちに なりましたか？</h2>
+                    <button type="button" onclick="speakText('３ばん。どんな きもちに なりましたか？')" class="bg-yellow-100 hover:bg-yellow-200 border-2 border-yellow-300 text-2xl rounded-full w-12 h-12 flex items-center justify-center transition btn-pushable shadow-sm" title="しつもんを きく">🔊</button>
                 </div>
-                <div class="hint-text">
-                    💡 それを してもらったとき、あなたは どんな きもちに なりましたか？
-                    <div class="flex flex-wrap gap-2 mt-2">
-                        <button type="button" onclick="insertHint('q3', 'とても うれしかったよ')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>とても うれしかったよ</button>
-                        <button type="button" onclick="insertHint('q3', 'たすかったよ')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>たすかったよ</button>
-                        <button type="button" onclick="insertHint('q3', 'すごいと おもったよ')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>すごいと おもったよ</button>
+                <div class="hint-box">
+                    <p class="text-gray-600 font-bold mb-3 flex items-center gap-2">💡 それを してもらったとき、どんな きもちに なりましたか？</p>
+                    <div id="q3-hints-list" class="flex flex-wrap gap-2 mb-3">
+                        <button type="button" onclick="insertHint('q3', 'とても うれしかったよ')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-md">😄 とても うれしかったよ</button>
+                        <button type="button" onclick="insertHint('q3', 'たすかったよ')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-md">😌 たすかったよ</button>
+                        <button type="button" onclick="insertHint('q3', 'すごいと おもったよ')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-md">😲 すごいと おもったよ</button>
                     </div>
+                    <button id="regen-btn-q3" type="button" onclick="regenerateHints('q3')" class="text-sm bg-purple-100 hover:bg-purple-200 text-purple-700 px-4 py-2 rounded-full shadow-sm flex items-center gap-2 transition btn-pushable font-bold border-2 border-purple-200">🔄 ほかのヒントを AIにきく</button>
                 </div>
                 <textarea id="q3" rows="3" placeholder="ここにかいてね"></textarea>
             </div>
 
-            <!-- 4 -->
             <div class="question-card">
-                <div class="flex items-center gap-2 mb-2">
-                    <h2 class="text-xl font-bold text-teal-700">４．あなたができる おてつだいや、おうえん</h2>
-                    <button type="button" onclick="speakText('４ばん。あなたができる おてつだいや、おうえん')" class="bg-teal-100 hover:bg-teal-200 text-lg rounded-full w-8 h-8 flex items-center justify-center transition shadow-sm" title="しつもんを きく">🔊</button>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-teal-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold shadow-sm">4</span>
+                    <h2 class="text-2xl font-bold text-teal-800 flex-grow">あなたができる おてつだいや、おうえん</h2>
+                    <button type="button" onclick="speakText('４ばん。あなたができる おてつだいや、おうえん')" class="bg-yellow-100 hover:bg-yellow-200 border-2 border-yellow-300 text-2xl rounded-full w-12 h-12 flex items-center justify-center transition btn-pushable shadow-sm" title="しつもんを きく">🔊</button>
                 </div>
-                <div class="hint-text">
-                    💡 これから、あなたが その人のために できそうな ことや、おうえんの ことばを かきましょう。
-                    <div class="flex flex-wrap gap-2 mt-2">
-                        <button type="button" onclick="insertHint('q4', 'これからは おさらあらいを てつだうね')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>おさらあらいを てつだうね</button>
-                        <button type="button" onclick="insertHint('q4', 'これからも おしごと がんばってね')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>おしごと がんばってね</button>
-                        <button type="button" onclick="insertHint('q4', 'ずっと なかよく してね')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>ずっと なかよくしてね</button>
+                <div class="hint-box">
+                    <p class="text-gray-600 font-bold mb-3 flex items-center gap-2">💡 これから、あなたが その人のために できそうな ことや、おうえんの ことばを かきましょう。</p>
+                    <div id="q4-hints-list" class="flex flex-wrap gap-2 mb-3">
+                        <button type="button" onclick="insertHint('q4', 'これからは おさらあらいを てつだうね')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-md">🍽️ おさらあらいを てつだうね</button>
+                        <button type="button" onclick="insertHint('q4', 'これからも おしごと がんばってね')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-md">📣 おしごと がんばってね</button>
+                        <button type="button" onclick="insertHint('q4', 'ずっと なかよく してね')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-md">🤝 ずっと なかよくしてね</button>
                     </div>
+                    <button id="regen-btn-q4" type="button" onclick="regenerateHints('q4')" class="text-sm bg-purple-100 hover:bg-purple-200 text-purple-700 px-4 py-2 rounded-full shadow-sm flex items-center gap-2 transition btn-pushable font-bold border-2 border-purple-200">🔄 ほかのヒントを AIにきく</button>
                 </div>
                 <textarea id="q4" rows="3" placeholder="ここにかいてね"></textarea>
             </div>
 
-            <!-- 5 -->
             <div class="question-card">
-                <div class="flex items-center gap-2 mb-2">
-                    <h2 class="text-xl font-bold text-teal-700">５．「ありがとう」の きもち</h2>
-                    <button type="button" onclick="speakText('５ばん。ありがとう の きもち')" class="bg-teal-100 hover:bg-teal-200 text-lg rounded-full w-8 h-8 flex items-center justify-center transition shadow-sm" title="しつもんを きく">🔊</button>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-teal-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold shadow-sm">5</span>
+                    <h2 class="text-2xl font-bold text-teal-800 flex-grow">「ありがとう」の きもち</h2>
+                    <button type="button" onclick="speakText('５ばん。ありがとう の きもち')" class="bg-yellow-100 hover:bg-yellow-200 border-2 border-yellow-300 text-2xl rounded-full w-12 h-12 flex items-center justify-center transition btn-pushable shadow-sm" title="しつもんを きく">🔊</button>
                 </div>
-                <div class="hint-text">
-                    💡 いちばん つたえたい「ありがとう」の ことばを かきましょう。
-                    <div class="flex flex-wrap gap-2 mt-2">
-                        <button type="button" onclick="insertHint('q5', 'いつも ありがとう')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>いつも ありがとう</button>
-                        <button type="button" onclick="insertHint('q5', 'ほんとうに ありがとう')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>ほんとうに ありがとう</button>
-                        <button type="button" onclick="insertHint('q5', 'だいすきだよ、ありがとう')" class="bg-white border border-teal-300 text-teal-700 px-3 py-1 rounded-full text-sm hover:bg-teal-50 transition shadow-sm flex items-center gap-1"><span>🔊</span>だいすきだよ</button>
+                <div class="hint-box">
+                    <p class="text-gray-600 font-bold mb-3 flex items-center gap-2">💡 いちばん つたえたい「ありがとう」の ことばを かきましょう。</p>
+                    <div id="q5-hints-list" class="flex flex-wrap gap-2 mb-3">
+                        <button type="button" onclick="insertHint('q5', 'いつも ありがとう')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-md">💖 いつも ありがとう</button>
+                        <button type="button" onclick="insertHint('q5', 'ほんとうに ありがとう')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-md">✨ ほんとうに ありがとう</button>
+                        <button type="button" onclick="insertHint('q5', 'だいすきだよ、ありがとう')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-md">🥰 だいすきだよ</button>
                     </div>
+                    <button id="regen-btn-q5" type="button" onclick="regenerateHints('q5')" class="text-sm bg-purple-100 hover:bg-purple-200 text-purple-700 px-4 py-2 rounded-full shadow-sm flex items-center gap-2 transition btn-pushable font-bold border-2 border-purple-200">🔄 ほかのヒントを AIにきく</button>
                 </div>
                 <textarea id="q5" rows="2" placeholder="ここにかいてね"></textarea>
             </div>
 
-            <!-- 6 -->
             <div class="question-card">
-                <div class="flex items-center gap-2 mb-2">
-                    <h2 class="text-xl font-bold text-teal-700">６．あなたの なまえ</h2>
-                    <button type="button" onclick="speakText('６ばん。あなたの なまえ')" class="bg-teal-100 hover:bg-teal-200 text-lg rounded-full w-8 h-8 flex items-center justify-center transition shadow-sm" title="しつもんを きく">🔊</button>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-teal-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold shadow-sm">6</span>
+                    <h2 class="text-2xl font-bold text-teal-800 flex-grow">あなたの なまえ</h2>
+                    <button type="button" onclick="speakText('６ばん。あなたの なまえ')" class="bg-yellow-100 hover:bg-yellow-200 border-2 border-yellow-300 text-2xl rounded-full w-12 h-12 flex items-center justify-center transition btn-pushable shadow-sm" title="しつもんを きく">🔊</button>
                 </div>
-                <div class="hint-text">
-                    💡 さいごに、あなたの なまえを かきましょう。<br>
-                    １：フルネーム（れい：やまだ たろう）<br>
-                    ２：したの なまえ（れい：たろう）<br>
-                    ３：ニックネーム（れい：たっくん）
+                <div class="hint-box">
+                    <p class="text-gray-600 font-bold mb-2">💡 さいごに、あなたの なまえを かきましょう。</p>
+                    <ul class="text-sm text-gray-500 pl-6 list-disc mb-2 space-y-1">
+                        <li>フルネーム（れい：やまだ たろう）</li>
+                        <li>したの なまえ（れい：たろう）</li>
+                        <li>ニックネーム（れい：たっくん）</li>
+                    </ul>
                 </div>
-                <div class="flex items-center">
+                <div class="flex items-center gap-3 bg-teal-50 p-3 rounded-2xl border-2 border-teal-100">
                     <input type="text" id="q6" placeholder="あなたの なまえ" class="flex-grow">
-                    <span class="ml-2 text-xl font-bold">より</span>
+                    <span class="text-2xl font-bold text-teal-700 pr-2">より</span>
                 </div>
             </div>
 
-            <!-- 生成ボタン -->
-            <div class="text-center mt-8 mb-12">
-                <button onclick="generateEssay()" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-4 px-8 rounded-full text-2xl shadow-lg transform transition hover:scale-105">
+            <div class="text-center mt-12 mb-16">
+                <button onclick="generateEssay()" class="bg-teal-500 hover:bg-teal-600 text-white font-extrabold py-5 px-10 rounded-full text-2xl shadow-xl border-b-4 border-teal-700 active:border-b-0 active:translate-y-1 transition-all btn-pushable">
                     ✨ さくぶんを つくる ✨
                 </button>
             </div>
         </form>
 
-        <!-- 結果表示エリア -->
-        <div id="result-area" class="hidden bg-white p-6 rounded-xl border-4 border-yellow-400 shadow-xl mb-12">
-            <h2 class="text-2xl font-bold text-center text-yellow-600 mb-4">🌟 さくぶんが できたよ！ 🌟</h2>
+        <div id="result-area" class="hidden bg-white p-6 md:p-8 rounded-3xl border-4 border-yellow-300 shadow-2xl mb-12 transform transition-all duration-500 translate-y-4 opacity-0">
+            <h2 class="text-3xl font-extrabold text-center text-yellow-500 mb-6 flex items-center justify-center gap-2">
+                🌟 さくぶんが できたよ！ 🌟
+            </h2>
             
-            <textarea id="final-essay" rows="12" class="w-full p-4 border-2 border-gray-200 rounded-lg text-lg mb-4"></textarea>
+            <textarea id="final-essay" rows="12" class="w-full p-5 border-4 border-teal-100 rounded-2xl text-xl mb-6 bg-teal-50/30 font-medium leading-relaxed shadow-inner"></textarea>
             
-            <!-- AI校正とコピーのボタンエリア -->
             <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <button id="proofread-btn" onclick="proofreadEssay()" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-lg border border-purple-600 flex items-center justify-center transition shadow-md">
+                <button id="proofread-btn" onclick="proofreadEssay()" class="bg-purple-100 hover:bg-purple-200 text-purple-700 font-bold py-4 px-6 rounded-2xl border-2 border-purple-300 flex items-center justify-center transition btn-pushable shadow-sm text-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                     </svg>
                     まほうで ぶんを きれいにする
                 </button>
-                <button onclick="copyToClipboard()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-lg border border-gray-300 flex items-center justify-center transition shadow-md">
+                <button onclick="copyToClipboard()" class="bg-white hover:bg-gray-50 text-gray-700 font-bold py-4 px-6 rounded-2xl border-2 border-gray-300 flex items-center justify-center transition btn-pushable shadow-sm text-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                     </svg>
@@ -200,42 +219,104 @@
                 </button>
             </div>
 
-            <!-- メッセージ表示エリア -->
-            <div class="text-center mt-4 h-8">
-                <p id="loading-message" class="text-purple-600 font-bold hidden animate-pulse">✨ まほうを かけているよ... ちょっと まってね ✨</p>
-                <p id="success-message" class="text-green-600 font-bold hidden">🌟 ぶんが きれいになったよ！</p>
-                <p id="error-message" class="text-red-500 font-bold hidden">💦 ごめんね、うまく できませんでした。</p>
-                <p id="copy-message" class="text-blue-600 font-bold hidden">📋 コピーしました！</p>
+            <div class="text-center mt-6 h-8">
+                <p id="loading-message" class="text-purple-600 font-bold hidden animate-pulse text-lg">✨ まほうを かけているよ... ちょっと まってね ✨</p>
+                <p id="success-message" class="text-teal-600 font-bold hidden text-lg">🌟 ぶんが きれいになったよ！</p>
+                <p id="error-message" class="text-red-500 font-bold hidden text-lg">💦 ごめんね、うまく できませんでした。</p>
+                <p id="copy-message" class="text-blue-600 font-bold hidden text-lg">📋 コピーしました！</p>
             </div>
         </div>
 
     </div>
 
     <script>
-        const API_KEY = ""; // APIキーはシステムから自動で提供されます
+        const apiKey = ""; // APIキーはシステムから自動で提供されます
 
         // --- 音声読み上げ機能 ---
         function speakText(text) {
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // 連続で押された時に前の音声を止める
+                window.speechSynthesis.cancel();
                 const msg = new SpeechSynthesisUtterance(text);
                 msg.lang = 'ja-JP';
-                msg.rate = 0.85; // 子供向けに少しゆっくり（1.0が標準）
-                msg.pitch = 1.1; // 少し高めの優しい声
+                msg.rate = 0.85;
+                msg.pitch = 1.1;
                 window.speechSynthesis.speak(msg);
             }
         }
 
-        // ヒント入力機能
+        // --- ヒント入力機能 ---
         function insertHint(inputId, text) {
-            speakText(text); // 読み上げを実行
+            speakText(text); // 絵文字を除いたテキストだけを読み上げる
 
             const input = document.getElementById(inputId);
-            input.value = text;
+            input.value = text; // 上書きモード
+            
+            // 少しだけ入力欄をアニメーションさせて「入った感」を出す
+            input.classList.remove('scale-100');
+            input.classList.add('scale-[1.02]', 'border-teal-400');
+            setTimeout(() => {
+                input.classList.remove('scale-[1.02]', 'border-teal-400');
+                input.classList.add('scale-100');
+            }, 200);
+            
             input.focus();
         }
 
-        // 作文の結合と表示
+        // --- ヒントの再生成機能 (AI) ---
+        async function regenerateHints(stepId) {
+            const btn = document.getElementById(`regen-btn-${stepId}`);
+            const list = document.getElementById(`${stepId}-hints-list`);
+            const originalHtml = list.innerHTML;
+            
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            list.innerHTML = `<div class="text-sm text-purple-600 animate-pulse font-bold p-3 bg-purple-50 rounded-xl border-2 border-purple-100 w-full text-center">✨ AIが かんがえているよ... ✨</div>`;
+
+            const stepPrompts = {
+                'q2': "「相手が自分にしてくれて嬉しかったこと」の別のヒントを3つ考えてください。小学生向けに「〜してくれたね」という語尾にしてください。",
+                'q3': "「嬉しいことをしてもらったときの気持ち」の別のヒントを3つ考えてください。小学生向けに「〜だったよ」「〜とおもったよ」という語尾にしてください。",
+                'q4': "「相手にしてあげられるお手伝いや、応援の言葉」の別のヒントを3つ考えてください。小学生向けに「〜するね」「〜してね」という語尾にしてください。",
+                'q5': "「ありがとうを伝える言葉」の別のヒントを3つ考えてください。小学生向けに温かい言葉で書いてください。"
+            };
+
+            const prompt = stepPrompts[stepId] + "\n\n出力ルール：\n必ず「絵文字|ヒントのテキスト」のように、1つの絵文字（顔文字やイラスト）とテキストを縦線（|）で区切り、3行で出力してください。余計な文章は一切書かないでください。\n例：\n🍳|ごはんをつくってくれたね\n🧹|おそうじをしてくれたね";
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = { contents: [{ parts: [{ text: prompt }] }] };
+
+            try {
+                const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!response.ok) throw new Error("API Error");
+                
+                const data = await response.json();
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                
+                if (text) {
+                    const lines = text.trim().split('\n').filter(l => l.includes('|'));
+                    if(lines.length > 0) {
+                        let newHtml = '';
+                        lines.forEach(line => {
+                            const parts = line.split('|');
+                            if(parts.length >= 2) {
+                                const emoji = parts[0].trim();
+                                const hintText = parts[1].trim();
+                                // 新しいデザインに合わせたボタンのHTML
+                                newHtml += `<button type="button" onclick="insertHint('${stepId}', '${hintText}')" class="bg-white border-2 border-teal-200 text-teal-700 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition btn-pushable shadow-sm flex items-center gap-2 text-md">${emoji} ${hintText}</button> `;
+                            }
+                        });
+                        list.innerHTML = newHtml;
+                    } else { throw new Error("Format mismatch"); }
+                } else { throw new Error("No text"); }
+            } catch (e) {
+                console.error(e);
+                list.innerHTML = originalHtml;
+                alert("AIがちょっと疲れちゃったみたい。もう一度ためしてね！");
+            } finally {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        // --- 作文の生成と表示 ---
         function generateEssay() {
             const q1 = document.getElementById('q1').value.trim();
             const q2 = document.getElementById('q2').value.trim();
@@ -256,7 +337,13 @@
             
             const resultArea = document.getElementById('result-area');
             resultArea.classList.remove('hidden');
-            resultArea.scrollIntoView({ behavior: 'smooth' });
+            
+            // ふわっと表示させるアニメーション
+            setTimeout(() => {
+                resultArea.classList.remove('translate-y-4', 'opacity-0');
+            }, 50);
+
+            resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             document.getElementById('proofread-btn').disabled = false;
             document.getElementById('proofread-btn').classList.remove('opacity-50', 'cursor-not-allowed');
@@ -272,7 +359,7 @@
             }
         }
 
-        // --- AI校正機能 (Gemini 2.5 Flash) ---
+        // --- AI校正機能 ---
         async function proofreadEssay() {
             const essayTextarea = document.getElementById('final-essay');
             const originalText = essayTextarea.value;
@@ -284,7 +371,7 @@
             hideAllMessages();
             document.getElementById('loading-message').classList.remove('hidden');
 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = {
                 contents: [{ parts: [{ text: `以下の作文を自然な表現に直してください:\n\n${originalText}` }] }],
                 systemInstruction: { 
@@ -293,10 +380,10 @@
             };
 
             let retries = 0;
-            const delays = [1000, 2000, 4000, 8000, 16000];
+            const delays = [1000, 2000, 4000];
             let success = false;
 
-            while (retries < 5 && !success) {
+            while (retries < 3 && !success) {
                 try {
                     const response = await fetch(url, {
                         method: 'POST',
@@ -320,7 +407,7 @@
                         throw new Error("No text returned");
                     }
                 } catch (error) {
-                    if (retries >= 4) {
+                    if (retries >= 2) {
                         console.error("AI校正エラー:", error);
                         hideAllMessages();
                         const errMsg = document.getElementById('error-message');
@@ -338,53 +425,41 @@
             document.getElementById('loading-message').classList.add('hidden');
         }
 
-        // --- 画像生成機能 (Imagen 4.0) ---
+        // --- 画像生成機能 ---
         async function loadStep2Image() {
             const container = document.getElementById('step2-image-container');
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${API_KEY}`;
-            const promptText = "High quality Japanese anime style illustration of a kind person making meals and teaching a child studying, warm and gentle atmosphere, colorful, safe for kids";
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
+            const promptText = "High quality Japanese anime style illustration of a kind person making meals and teaching a child studying, warm and gentle atmosphere, pastel colors, safe for kids, simple background";
             
             const payload = {
                 instances: { prompt: promptText },
                 parameters: { sampleCount: 1 }
             };
 
-            let retries = 0;
-            const delays = [1000, 2000, 4000, 8000, 16000];
-            let success = false;
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
 
-            while (retries < 5 && !success) {
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
+                if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
 
-                    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-
-                    const result = await response.json();
-                    if (result.predictions && result.predictions[0] && result.predictions[0].bytesBase64Encoded) {
-                        const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
-                        container.innerHTML = `<img src="${imageUrl}" alt="ヒントのイラスト" class="w-full max-w-sm mx-auto rounded-lg shadow-md border border-gray-200 mt-2">`;
-                        container.classList.remove('bg-teal-50', 'border-teal-100', 'min-h-[150px]');
-                        success = true;
-                    } else {
-                        throw new Error("No image data returned");
-                    }
-                } catch (error) {
-                    if (retries >= 4) {
-                        console.error("画像生成エラー:", error);
-                        container.innerHTML = `<span class="text-red-400">イラストの じゅんびに しっぱいしました💦</span>`;
-                        break;
-                    }
-                    await new Promise(r => setTimeout(r, delays[retries]));
-                    retries++;
+                const result = await response.json();
+                if (result.predictions && result.predictions[0] && result.predictions[0].bytesBase64Encoded) {
+                    const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                    container.innerHTML = `<img src="${imageUrl}" alt="ヒントのイラスト" class="w-full max-w-sm mx-auto rounded-2xl shadow-sm border-4 border-white mt-2">`;
+                    container.classList.remove('bg-white', 'border-teal-100', 'min-h-[150px]');
+                } else {
+                    throw new Error("No image data returned");
                 }
+            } catch (error) {
+                console.error("画像生成エラー:", error);
+                container.innerHTML = `<span class="text-red-400 font-bold bg-red-50 px-4 py-2 rounded-full">イラストの じゅんびに しっぱいしました💦</span>`;
             }
         }
 
-        // コピー機能
+        // --- コピー機能 ---
         function copyToClipboard() {
             const essayText = document.getElementById('final-essay');
             essayText.select();
