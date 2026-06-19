@@ -11,13 +11,13 @@ def home():
             html_content = f.read()
         
         # 2. Renderに設定した「秘密の鍵」を取り出す
-        api_key = os.environ.get('API_KEY')
+        api_key = os.environ.get('GEMINI_API_KEY')
         
         if not api_key:
             return "エラー: APIキーが設定されていません。RenderのEnvironment Variablesを確認してください。"
 
         # 3. HTMLの中の「空っぽの鍵置き場」を「本物の鍵」に書き換える
-        html_content = html_content.replace('const API_KEY = "";', f'const API_KEY = "{api_key}";')
+        html_content = html_content.replace('const apikey = "";', f'const apike = "{api_key}";')
 
         # 4. 完成したHTMLをそのままブラウザに送る（一番安全な方法）
         return html_content
